@@ -1,0 +1,15 @@
+---
+title: "My awesome website"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+# Information about this website
+
+This website was made as an example in [P8105](https://p8105.com/index.html) for "Making Websites". 
+
+I'm making in in RMD and using GitHub for hosting. 
+
+Here's a [link](index.html) to take you home. 

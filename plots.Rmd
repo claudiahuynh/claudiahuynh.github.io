@@ -1,0 +1,25 @@
+---
+title: "Plots"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+# Here are some plots
+
+Make some plots in the same way as always 
+
+```{r}
+library(tidyverse)
+
+df = tibble(
+  x = rnorm(100,2,5), 
+  y = 1 + 2*x - 0.5*x^2 + rnorm(100)
+)
+
+df |> 
+ggplot(aes(x = x, y = y)) +
+geom_point()
+```
+

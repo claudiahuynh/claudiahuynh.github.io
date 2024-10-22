@@ -1,0 +1,26 @@
+---
+title: "My awesome website"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+# This is Claudia's awesome website
+
+![](https://media.giphy.com/media/drXGoW1iudhKw/giphy.gif)
+
+This is an **awesome website** about Data Science 
+Sometimes I use [google](https://www.google.com/) to do data science when I'm stuck
+
+This is my cat Dani. She's a good cat.
+RMD embedding: 
+![](images/dani.jpg)
+
+
+Straight HTML embedding.
+<img src="images/dani.jpg" style="width:75%">
+
+
+If you'd like to learn more about this website, visit [this page](about.html)
+
