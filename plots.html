@@ -333,6 +333,9 @@ div.tocify {
   <a href="plotly.html">Plotly</a>
 </li>
 <li>
+  <a href="dashboard.html">Dashboard</a>
+</li>
+<li>
   <a href="mailto:&lt;you@youremail.com&gt;">
     <span class="fa fa-envelope fa-lg"></span>
      
@@ -361,18 +364,9 @@ div.tocify {
 <div id="here-are-some-plots" class="section level1">
 <h1>Here are some plots</h1>
 <p>Make some plots in the same way as always</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ────────────────────────────────────────────────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-## ✔ purrr     1.0.2     
-## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<pre class="r"><code>df = tibble(
+<pre class="r"><code>library(tidyverse)
+
+df = tibble(
   x = rnorm(100,2,5), 
   y = 1 + 2*x - 0.5*x^2 + rnorm(100)
 )
