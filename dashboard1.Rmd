@@ -1,0 +1,243 @@
+---
+title: "Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+navbar:
+  title: "Home"
+  right:
+    - text: "About"
+      href: about.html
+    - text: "Dashboard"
+      href: dashboard1.html
+    - icon: fa-envelope fa-lg
+      href: mailto:mh4589@cumc.columbia.edu
+    - icon: fa-github fa-lg
+      href: http://github.com/claudiahuynh/
+
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(plotly)
+library(rvest)
+
+
+get_all_inspections = function(url) {
+  
+  all_inspections = vector("list", length = 0)
+  
+  loop_index = 1
+  chunk_size = 50000
+  DO_NEXT = TRUE
+  
+  while (DO_NEXT) {
+    message("Getting data, page ", loop_index)
+    
+    all_inspections[[loop_index]] = 
+      GET(url,
+          query = list(`$order` = "zipcode",
+                       `$limit` = chunk_size,
+                       `$offset` = as.integer((loop_index - 1) * chunk_size)
+                       )
+          ) %>%
+      content("text") %>%
+      fromJSON() %>%
+      as_tibble()
+    
+    DO_NEXT = dim(all_inspections[[loop_index]])[1] == chunk_size
+    loop_index = loop_index + 1
+  }
+  
+  all_inspections
+  
+}
+
+url = "https://data.cityofnewyork.us/resource/43nn-pn8j.json"
+
+nyc_inspections = 
+  get_all_inspections(url) |> 
+  bind_rows() |> 
+  separate(grade_date, into = c("year", "month", "date"), sep = "-") |> 
+  select(-date, -month) |> 
+  filter(year == "2024") |> 
+  group_by(latitude, longitude, dba) |>
+  filter(row_number() == 1) |> 
+  ungroup() 
+```
+
+
+Column {data-width=550}
+-----------------------------------------------------------------------
+
+### Map of NYC Restaraunts With Grades A-C in 2024
+
+```{r}
+nyc_map = 
+  nyc_inspections |> 
+  filter(
+    grade == c("A", "B", "C")
+    ) |> 
+  drop_na(grade, longitude, latitude) |> 
+  mutate(
+    grade_factor = factor(grade, levels = c("C", "B", "A")),  
+    text_label = str_c("Restaurant: ", dba, 
+                       "\nCuisine: ", cuisine_description,
+                       "\nGrade: ", grade)
+  )
+
+fig1 =
+  plot_ly(data = nyc_map,
+          lat = ~latitude,
+          lon = ~longitude,
+          color = ~grade,
+          sizes = c(0, 15),
+          text = ~text_label,
+          type = "scattermapbox",
+          mode = "markers",
+          marker = list(line = list(width = 0)) 
+         ) |> 
+  layout(
+    mapbox = 
+      list(
+        style = "open-street-map", 
+        center = list(lat = 40.7128, lon = -74.0060),
+        zoom = 10
+      )
+  )
+
+fig1
+
+```
+
+Column {data-width=450}
+-----------------------------------------------------------------------
+
+### NYC Restaurant Inspection Scores in 2024, stratified by Critical Flag
+
+```{r}
+nyc_violin =
+  nyc_inspections |> 
+  drop_na(score, critical_flag, boro) |> 
+  group_by(latitude, longitude, dba) |> 
+  filter(
+    row_number() == 1,
+    critical_flag != "Not Applicable"
+    ) |> 
+  ungroup() |>
+  mutate(score = as.numeric(score)) |> 
+  arrange(desc(score))
+  
+fig2 = plot_ly(type = "violin")
+
+
+fig2 =
+  fig2 |> 
+  add_trace(
+    data = nyc_violin |>  
+    filter(critical_flag == "Critical"),
+    x = ~boro,
+    y = ~score,
+    legendgroup = "Critical",
+    scalegroup = "Critical",
+    name = "Critical",
+    side = "negative",
+    box = list(visible = TRUE),
+    meanline = list(visible = TRUE),
+    color = I("red"),
+    width = 0.9
+  ) 
+
+fig2 =
+  fig2 |> 
+  add_trace(
+    data = nyc_violin |>  filter(critical_flag == "Not Critical"),
+    x = ~boro,
+    y = ~score,
+    legendgroup = "Not Critical",
+    scalegroup = "Not Critical",
+    name = "Not Critical",
+    side = "positive",
+    box = list(visible = TRUE),
+    meanline = list(visible = TRUE),
+    color = I("green"),
+    width = 0.9
+  ) 
+
+fig2 =
+  fig2 |> 
+  layout(
+    xaxis = list(title = ""),
+    yaxis = list(title = "", zeroline = FALSE),
+    violingap = 0,
+    violingroupgap = 0,
+    violinmode = "overlay",
+    span_mode = "hard"
+  )
+
+fig2
+
+
+```
+
+### NYC Restaurant Inspection Grades by Neighborhood in Manhattan
+
+```{r}
+zip = 
+  read_html("https://p8105.com/data/zip_codes.html") |> 
+  html_table() |> 
+  first() |> 
+  janitor::clean_names() |> 
+  arrange(zip_code) |> 
+  mutate(
+    boro = case_when(
+      county == "New York" ~ "Manhattan",
+      county == "Kings" ~ "Brooklyn",
+      county == "Queens" ~ "Queens",
+      county == "Bronx" ~ "Bronx",
+      county == "Richmond" ~ "Staten Island"),
+    county = trimws(as.character(county)),
+    county = ifelse(zip_code == "11693", "Queens", county),
+    zip_code = as.character(zip_code)
+    ) |> 
+  rename(zipcode = zip_code)
+
+
+nyc_bar = 
+  full_join(zip, nyc_inspections, by = c("zipcode", "boro")) |> 
+  drop_na() |> 
+  filter(boro == "Manhattan") |> 
+  group_by(neighborhood, grade) |> 
+  mutate(
+    count = n()
+  ) |> 
+  distinct(neighborhood, grade, count, .keep_all = TRUE) |> 
+  ungroup() |> 
+  arrange(count)
+
+fig3 = plot_ly(data = nyc_bar, type = 'bar', orientation = 'h')
+
+fig3 = fig3 |> 
+  add_trace(
+    x = ~count,
+    y = ~neighborhood,
+    name = ~grade, 
+    color = ~grade,
+    colors = c("A" = "green", "B" = "orange", "C" = "red", "N" = "purple", "P" = "blue", "Z" = "gray"),
+    hovertemplate = "Count: %{x}",
+    legendgroup = ~grade
+  )
+
+fig3 =
+  fig3 |> 
+  layout(barmode = 'stack',
+         xaxis = list(title = ""),
+         yaxis = list(title =""))
+
+fig3
+```
+

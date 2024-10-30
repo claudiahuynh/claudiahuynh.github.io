@@ -1,15 +1,71 @@
 ---
-title: "My awesome website"
+title: "Resume"
 output: 
   html_document:
     toc: true
     toc_float: true
 ---
 
-# Information about this website
+## **Education**
 
-This website was made as an example in [P8105](https://p8105.com/index.html) for "Making Websites". 
+**University of California - San Diego**		  	
+B.S Neurobiology, *magna cum laude*  
+Cumulative GPA: 3.93/4.00 
 
-I'm making in in RMD and using GitHub for hosting. 
+## **Skills**
+  * **Data analysis**: R, Microsoft Office, SAS, JMP. 
+  * **Laboratory skills**: molecular & cell biology, biochemistry, analytical chemistry and histology     
+  * **Business Analytics**: A/B testing, KPI analysis
 
-Here's a [link](index.html) to take you home. 
+
+## **Professional Experiences**
+**Therapeutic Approach to Growth, San Diego** 						
+***Registered Behavior Technician***		
+
+  * Sharpen interpersonal skills and communication skills with children with autism and family members using Applied Behavior Analysis (ABA) and Relationship Development Intervention (RDI) approaches; explain clinical information in a non-clinical manner to family members to support their involvement in their children’s progress in behavior therapy.
+  
+  * Strengthen skills in behavior analysis, problem solving and clinical data documentation.
+
+**Aquillius Corporation, San Diego** 							
+***Project Associate***		  
+  * Served as a liaison between cross-functional parties including R&D, engineering and manufacturing and maintained consistent communication with SME’s by coordinating meetings and preparing agendas.    
+  * Developed project charter, project scope and project management plan to move the project from planning stage to executing stage.   
+  * Tracked project expenses, created purchase orders, tracked invoices and identified areas for cost optimization.    
+
+## **Research**
+
+**The Maximov Lab - Scripps Research, San Diego** 				
+***Laboratory Intern*** 								      
+
+  * Performed immunohistochemistry staining, confocal imaging, DNA extraction, molecular cloning (SnapGene), perfusion, vibratome brain slicing, genotyping, and mammalian cell culture to research the role of class IIa Histone Deacetylase 4 in learning and memory.
+  
+  * Gained hands-on experience with standard laboratory instrumentation including PCR, centrifugation, DNA quantitation, gel documentation systems and liquid handling.
+  * Implemented an experimental project to study the mechanisms of alternative splicing of the voltage-gated sodium channel gene, analyzed and interpreted results and provided clear communication of data in weekly lab meetings.
+
+**The Zou Lab - UC San Diego, San Diego** 		
+***Undergraduate laboratory volunteer***
+
+  * Researched the impacts of ketamine on alleviating rodents' depressive behavior under Dr. Andiara Espindola De Freitas' project
+  * Gained hands-on experience with laboratory techniques including PCR, gel electrophoresis, cryo brain slicing, transcardial perfusions and dissection; assisted stereotaxic surgery procedures.
+
+**Anatomical HistoPathology Lab - University of Medicine and Pharmacy HCMC, Ho Chi Minh City**
+***Laboratory Intern***	
+  * Performed anatomical pathology procedures including tissue fixation, histopathology and tumor selection, tissue embedding and grossing, H&E staining and cell block on 400+ patients samples per day. 
+
+## **Leadership**
+**Viets for Change**			
+**Co-founder, Project Manager**
+  *Led a team of 50+ members of content creators, translators, designers and social media managers to deliver 200+ educational posts on Instagram with 30+ social justice topics.
+
+## **Awards**
+UC San Diego Magna Cum Laude 2023
+
+## **Presentation** 
+Mathematical modeling using SIR and PSQ models to predict mortality rates from the prevalence of smoking in Vietnam (2019).
+
+## **Certificates**
+  * Certified Associate in Project Management (CAPM)
+  
+  * Registered Behavior Technician
+
+
