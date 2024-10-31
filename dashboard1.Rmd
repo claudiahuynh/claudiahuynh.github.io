@@ -15,6 +15,8 @@ navbar:
       href: mailto:mh4589@cumc.columbia.edu
     - icon: fa-github fa-lg
       href: http://github.com/claudiahuynh/
+    - icon: fa-linkedin fa-lg
+      href: https://www.linkedin.com/in/claudiahuynh/
 
 ---
 

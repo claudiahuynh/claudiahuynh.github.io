@@ -8,8 +8,12 @@ output:
 
 # Introduction  
 
-I graduated with a B.S in Neurobiology from UC San Diego in 2023. 
+My name is My An Huynh. I graduated with a B.S in Neurobiology from UC San Diego in 2023 and I am currently pursuing my Masters in Biostatistics at Columbia University. 
 
+I have a cat. Here's my cat.
+<br>
+<img src="images/dani.jpg" style="width:75%">
 
+<br>
 Click [here](about.html) to see my professional experiences.
 
